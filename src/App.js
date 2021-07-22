@@ -1,8 +1,12 @@
-import React from "react";
+import React,{useState} from "react";
 import PokemonCard from "./components/PokemonCard";
+
 import './App.scss';
 
 function App() {
+
+
+
   let pokémon = [
     { id: 1, name: "Bulbasaur", types: ["poison", "grass"], bg: "green" },
     { id: 5, name: "Charmeleon", types: ["fire"], bg: "red" },
@@ -45,7 +49,38 @@ function App() {
     {types: "ice", color: "#3f51b5" },
   ]
   let uniqid = require('uniqid');
+
+  // State para un Pokemon
+
+  const [contentpoke, setContentpoke] = useState([])
+  const [estadopoke, setEstadopoke] = useState(false)
+
+  console.log('contentpoke APP-->',contentpoke)
+
+  let poke = {
+    id   : contentpoke[0],
+    name : contentpoke[1],
+    tipo : contentpoke[2],
+    bg   : contentpoke[3],
+    url  : contentpoke[4]
+  }
+
   return (
+    <>
+    {estadopoke ?
+          <div className="PokeContainer__card-select">
+          <h3>{poke.name} Nº {poke.id}</h3>
+          <div className={`PokeContainer__card-circle`} style={{background:poke.bg}} >
+            <img src={poke.url} alt={poke.name}/>
+          </div>
+          <h5>Tipo: {poke.tipo}</h5>
+        </div>
+     
+      :
+      null
+    }
+
+ 
     <div className="PokeContainer">
       {pokémon.map((unPokemon) => (
         <PokemonCard
@@ -54,9 +89,18 @@ function App() {
           name={unPokemon.name}
           types={unPokemon.types.toString()}
           bg={tipos.filter( (unTipo) => ( unTipo.types === unPokemon.types[0]) ).map( (tipoElegido)=>(tipoElegido.color) )}
-        ></PokemonCard>
+          unPokemon={unPokemon}
+          selectPokemon={
+
+            // Se manda una props que contiene una funcion ( Arrow function )
+            contentpoke => setContentpoke(contentpoke)
+            
+          }
+          onOff={ estadopoke => setEstadopoke(estadopoke)}
+        />
       ))}
     </div>
+    </>
   );
 }
 
