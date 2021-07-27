@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import PokemonCard from "./components/PokemonCard";
+import FormularioIngreso from "./components/FormularioIngreso";
 
 import './App.scss';
 
@@ -8,29 +9,29 @@ function App() {
 
 
   let pokémon = [
-    { id: 1, name: "Bulbasaur", types: ["poison", "grass"], bg: "green" },
-    { id: 5, name: "Charmeleon", types: ["fire"], bg: "red" },
-    { id: 9, name: "Blastoise", types: ["water"], bg: "blue" },
-    { id: 12, name: "Butterfree", types: ["bug", "flying"], bg: "white" },
-    { id: 16, name: "Pidgey", types: ["normal", "flying"], bg: "white" },
-    { id: 23, name: "Ekans", types: ["poison"], bg: "purple" },
-    { id: 24, name: "Arbok", types: ["poison"], bg: "purple" },
-    { id: 25, name: "Pikachu", types: ["electric"], bg: "yellow" },
-    { id: 37, name: "Vulpix", types: ["fire"], bg: "red" },
-    { id: 52, name: "Meowth", types: ["normal"], bg: "white" },
-    { id: 63, name: "Abra", types: ["psychic"], bg: "grey" },
-    { id: 67, name: "Machamp", types: ["fighting"], bg: "brown" },
-    { id: 72, name: "Tentacool", types: ["water", "poison"], bg: "blue" },
-    { id: 74, name: "Geodude", types: ["rock", "ground"], bg: "brown" },
-    { id: 87, name: "Dewgong", types: ["water", "ice"], bg: "blue" },
-    { id: 98, name: "Krabby", types: ["water"], bg: "blue" },
-    { id: 115, name: "Kangaskhan", types: ["normal"], bg: "white" },
-    { id: 122, name: "Mr. Mime", types: ["psychic"], bg: "purple" },
-    { id: 133, name: "Eevee", types: ["normal"], bg: "white" },
-    { id: 144, name: "Articuno", types: ["ice", "flying"], bg: "white" },
-    { id: 145, name: "Zapdos", types: ["electric", "flying"], bg: "yellow" },
-    { id: 146, name: "Moltres", types: ["fire", "flying"], bg: "red" },
-    { id: 148, name: "Dragonair", types: ["dragon"], bg: "silver" },
+    { id: 1, name: "Bulbasaur", types: ["poison", "grass"] },
+    { id: 5, name: "Charmeleon", types: ["fire"]},
+    { id: 9, name: "Blastoise", types: ["water"]},
+    { id: 12, name: "Butterfree", types: ["bug", "flying"]},
+    { id: 16, name: "Pidgey", types: ["normal", "flying"]},
+    { id: 23, name: "Ekans", types: ["poison"]},
+    { id: 24, name: "Arbok", types: ["poison"]},
+    { id: 25, name: "Pikachu", types: ["electric"]},
+    { id: 37, name: "Vulpix", types: ["fire"]},
+    { id: 52, name: "Meowth", types: ["normal"] },
+    { id: 63, name: "Abra", types: ["psychic"]},
+    { id: 67, name: "Machamp", types: ["fighting"]},
+    { id: 72, name: "Tentacool", types: ["water", "poison"] },
+    { id: 74, name: "Geodude", types: ["rock", "ground"]},
+    { id: 87, name: "Dewgong", types: ["water", "ice"]},
+    { id: 98, name: "Krabby", types: ["water"] },
+    { id: 115, name: "Kangaskhan", types: ["normal"]},
+    { id: 122, name: "Mr. Mime", types: ["psychic"]},
+    { id: 133, name: "Eevee", types: ["normal"]},
+    { id: 144, name: "Articuno", types: ["ice", "flying"]},
+    { id: 145, name: "Zapdos", types: ["electric", "flying"]},
+    { id: 146, name: "Moltres", types: ["fire", "flying"]},
+    { id: 148, name: "Dragonair", types: ["dragon"] },
   ];
 
   let tipos = [
@@ -55,7 +56,23 @@ function App() {
   const [contentpoke, setContentpoke] = useState([])
   const [estadopoke, setEstadopoke] = useState(false)
 
-  console.log('contentpoke APP-->',contentpoke)
+  const [newPokemon,setNewPokemon] = useState({
+    id : '',
+    name : '',
+    types : ''
+  });
+
+
+  const guardarPokemon = () => {
+      let objetoPokemon = {
+          id:parseInt(newPokemon.id),
+          name : newPokemon.name,
+          types : newPokemon.types.split(',')
+      }
+      pokémon.push(objetoPokemon)
+
+  }
+
 
   let poke = {
     id   : contentpoke[0],
@@ -80,8 +97,12 @@ function App() {
       null
     }
 
- 
+    
     <div className="PokeContainer">
+
+      <FormularioIngreso guardarPokemon={guardarPokemon} newPokemon={newPokemon} setNewPokemon={setNewPokemon}/>
+
+
       {pokémon.map((unPokemon) => (
         <PokemonCard
           key={uniqid()}
